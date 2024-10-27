@@ -2,6 +2,7 @@ import streamlit as st
 import cv2
 from PIL import Image
 import numpy as np
+import time
 
 # Load the cascade classifier
 face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
@@ -20,6 +21,9 @@ def detect(image, scaleFactor=1.3, minNeighbors=5, color=(255, 0, 0)):
 def detect_faces_webcam(scaleFactor=1.3, minNeighbors=5, color=(255, 0, 0)):
     cap = cv2.VideoCapture(0)
     stframe = st.empty()  # Placeholder for video frames in Streamlit
+
+    st.write("Starting webcam... please wait a few seconds.")
+    time.sleep(3)  # Delay before starting face detection
 
     while True:
         ret, frame = cap.read()
@@ -62,12 +66,12 @@ def app():
                                         ['scaleFactor', 'minNeighbors', 'Pick rectangle color'])
 
     # Set default values
-    scaleFactor = 1.1
-    minNeighbors = 4
+    scaleFactor = 1.3
+    minNeighbors = 5
     color = (255, 0, 0)  # Default color is red
 
     if enhance_features == 'scaleFactor':
-        scaleFactor = st.slider("Adjust Scale Factor", 1.0, 1.05, 1.1)
+        scaleFactor = st.slider("Adjust Scale Factor", 1.0, 1.05, 1.1, 1.3)
         st.write(f"Scale Factor set to {scaleFactor}")
 
     elif enhance_features == 'minNeighbors':
